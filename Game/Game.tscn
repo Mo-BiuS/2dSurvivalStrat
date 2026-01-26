@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://busbohfwmjrhn"]
+
+[ext_resource type="Script" uid="uid://blhfpfdqjaisw" path="res://Game/Game.gd" id="1_vrr3t"]
+[ext_resource type="PackedScene" uid="uid://bq4ww8m2sww7r" path="res://Game/World/Chunk/ChunkHandler.tscn" id="2_iv3md"]
+[ext_resource type="PackedScene" uid="uid://b2snugqc3aesp" path="res://Game/Camera/FreeCamera.tscn" id="3_iv3md"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_vrr3t")
+
+[node name="ChunkHandler" parent="." instance=ExtResource("2_iv3md")]
+
+[node name="FreeCamera" parent="." instance=ExtResource("3_iv3md")]
+position = Vector2(1200, 661)
