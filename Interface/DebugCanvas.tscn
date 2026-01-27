@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://ch6x4is04eulg"]
+
+[ext_resource type="Script" uid="uid://c0x80cmb8wgd3" path="res://Interface/DebugCanvas.gd" id="1_y4rsg"]
+[ext_resource type="FontFile" uid="uid://vqbixbjy4e3w" path="res://Ressources/Font/Thin Sans.ttf" id="2_4cjyj"]
+[ext_resource type="Texture2D" uid="uid://b8q2ylnjndebj" path="res://Ressources/Sprite/wind.png" id="2_rg7le"]
+
+[node name="DebugCanvas" type="CanvasLayer" node_paths=PackedStringArray("fpsLabel", "wind", "gpos", "lpos")]
+script = ExtResource("1_y4rsg")
+fpsLabel = NodePath("MarginContainer/VBoxContainer/FPS")
+wind = NodePath("MarginContainer/VBoxContainer/Control/wind")
+gpos = NodePath("MarginContainer/VBoxContainer/globalPos")
+lpos = NodePath("MarginContainer/VBoxContainer/localPos")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="wind" type="Sprite2D" parent="MarginContainer/VBoxContainer/Control"]
+position = Vector2(64, 64)
+texture = ExtResource("2_rg7le")
+
+[node name="FPS" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4cjyj")
+theme_override_font_sizes/font_size = 20
+text = "FPS : 100"
+horizontal_alignment = 1
+
+[node name="globalPos" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="localPos" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20

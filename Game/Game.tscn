@@ -1,13 +1,57 @@
-[gd_scene load_steps=4 format=3 uid="uid://busbohfwmjrhn"]
+[gd_scene load_steps=8 format=3 uid="uid://busbohfwmjrhn"]
 
 [ext_resource type="Script" uid="uid://blhfpfdqjaisw" path="res://Game/Game.gd" id="1_vrr3t"]
 [ext_resource type="PackedScene" uid="uid://bq4ww8m2sww7r" path="res://Game/World/Chunk/ChunkHandler.tscn" id="2_iv3md"]
 [ext_resource type="PackedScene" uid="uid://b2snugqc3aesp" path="res://Game/Camera/FreeCamera.tscn" id="3_iv3md"]
+[ext_resource type="PackedScene" uid="uid://ch6x4is04eulg" path="res://Interface/DebugCanvas.tscn" id="4_37esa"]
+[ext_resource type="Texture2D" uid="uid://cju6duxcxsrhb" path="res://Ressources/Tileset/TestingTileset.png" id="5_jxerj"]
 
-[node name="Game" type="Node2D"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ghvq8"]
+texture = ExtResource("5_jxerj")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+0:2/0 = 0
+0:2/0/metadata/_better_terrain = {
+&"type": 0
+}
+
+[sub_resource type="TileSet" id="TileSet_37esa"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_ghvq8")
+metadata/_better_terrain = {
+&"decoration": ["Decoration", Color(0.4117647, 0.4117647, 0.4117647, 1), 3, [], {
+&"path": "res://addons/better-terrain/icons/Decoration.svg"
+}],
+&"terrains": [["New terrain", Color(0.67044437, 0.43885857, 0.8074496, 1), 0, [], {
+&"path": ""
+}]],
+&"version": "0.2"
+}
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("debugCanvas", "debugLayer", "chunkHandler")]
 script = ExtResource("1_vrr3t")
+debugCanvas = NodePath("DEBUG/DebugCanvas")
+debugLayer = NodePath("DEBUG/debugLayer")
+chunkHandler = NodePath("ChunkHandler")
 
 [node name="ChunkHandler" parent="." instance=ExtResource("2_iv3md")]
 
 [node name="FreeCamera" parent="." instance=ExtResource("3_iv3md")]
 position = Vector2(1200, 661)
+
+[node name="DEBUG" type="Node2D" parent="."]
+
+[node name="DebugCanvas" parent="DEBUG" node_paths=PackedStringArray("chunkHandler") instance=ExtResource("4_37esa")]
+chunkHandler = NodePath("../../ChunkHandler")
+
+[node name="debugLayer" type="TileMapLayer" parent="DEBUG"]
+tile_set = SubResource("TileSet_37esa")

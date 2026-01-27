@@ -1,8 +1,8 @@
 class_name StaticTerrain
 
-static var THRESHOLD_SEA			:= 0.0
+static var THRESHOLD_SEA			:= 0.1
 static var THRESHOLD_COAST			:= 0.1
-static var THRESHOLD_BEACH			:= 0.12
+static var THRESHOLD_BEACH			:= 0.11
 static var THRESHOLD_PLAINS			:= 0.20
 static var THRESHOLD_HILLS			:= 0.28
 static var THRESHOLD_MONTAIN_LOW		:= 0.36
@@ -23,6 +23,8 @@ static var VALUE_MONTAIN_HIGH	:= 9
 static var GROUP_SALT_WATER:Array[int] = [VALUE_SEA,VALUE_COAST]
 static var GROUP_FRESH_WATER:Array[int] = [VALUE_RIVER,VALUE_LAKE]
 static var GROUP_LAND:Array[int] = [VALUE_BEACH,VALUE_PLAINS,VALUE_HILLS,VALUE_MONTAIN_LOW,VALUE_MONTAIN_MEDIUM,VALUE_MONTAIN_HIGH]
+
+static var THRESHOLD_SPRING_START := 0.0002
 
 static func getValue(threshold:float)->int:
 	if(threshold < THRESHOLD_SEA):return VALUE_SEA
