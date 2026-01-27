@@ -64,9 +64,7 @@ func setValue(pos:Vector2i, value:int):
 	valueMap[pos.x*CHUNK_SIZE+pos.y] = value
 	mutex.unlock()
 func getValue(pos:Vector2i)->int:
-	mutex.lock()
 	var rep = valueMap[pos.x*CHUNK_SIZE+pos.y]
-	mutex.unlock()
 	return rep
 func getHeight(pos:Vector2i)->float:
 	return NoiseHandler.getHeight(pos.x+globalPosition.x*CHUNK_SIZE,pos.y+globalPosition.y*CHUNK_SIZE)

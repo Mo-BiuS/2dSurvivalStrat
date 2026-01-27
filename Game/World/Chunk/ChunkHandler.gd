@@ -79,7 +79,6 @@ func lakeGeneration()->void:
 				for dir:Vector2i in Direction.four:
 					var directionPos = lakePos+dir
 					var directionValue = getValue(directionPos)
-					if(directionValue == -1):mustWaitForGen = true
 					if(StaticTerrain.GROUP_SALT_WATER.has(directionValue)):
 						foundSea = true
 					elif(!exclusionList.has(directionPos)):
@@ -92,10 +91,6 @@ func lakeGeneration()->void:
 							elif(directionHeight <= minHeight):
 								minHeight = directionHeight
 								minPos = directionPos
-		if(mustWaitForGen):
-			lakeIt.append(minPos)
-			call_deferred("addChunk",getGlobalPos(minPos))
-			
 		if(foundRiver):
 			riverIt.insert(0,minPos)
 			setValue(minPos,-1)
