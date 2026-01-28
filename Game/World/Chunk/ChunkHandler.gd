@@ -78,40 +78,33 @@ func lakeGeneration()->void:
 			var lakeHeight = NoiseHandler.getHeight(lakePos.x,lakePos.y)
 			for dir:Vector2i in Direction.four:
 				var directionPos = lakePos+dir
-				if(hasChunkReady(getGlobalPos(directionPos))):
-					var directionValue = getValue(directionPos)
-					if(StaticTerrain.GROUP_SALT_WATER.has(directionValue)):
-						foundSea = true
-					elif(!workingLakeIt.has(directionPos)):
-						if(directionValue == StaticTerrain.VALUE_LAKE):workingLakeIt.append(directionPos)
-						else:
-							var directionHeight = NoiseHandler.getHeight(directionPos.x,directionPos.y)
-							if(directionHeight < lakeHeight):
-								foundRiver = true
-								minPos = directionPos
-							elif(directionHeight <= minHeight):
-								foundRiver = false
-								minHeight = directionHeight
-								minPos = directionPos
-				else:
-					addFrontLakeIt(lakePos)
-					call_thread_safe("addChunk",getGlobalPos(directionPos))
-					mustWaitForGen = true
-					break
-			if(mustWaitForGen):break
-		if(!mustWaitForGen):
-			if(foundRiver):
-				if(!hasChunkReady(getGlobalPos(minPos))):call_thread_safe("addChunk",getGlobalPos(minPos))
-				call_thread_safe("addFrontRiverIt",minPos)
-				setValue(minPos,StaticTerrain.VALUE_RIVER)
+				var directionValue = getValue(directionPos)
+				
+				if(StaticTerrain.GROUP_SALT_WATER.has(directionValue)):
+					foundSea = true
+				elif(!workingLakeIt.has(directionPos)):
+					if(directionValue == StaticTerrain.VALUE_LAKE):workingLakeIt.append(directionPos)
+					else:
+						var directionHeight = NoiseHandler.getHeight(directionPos.x,directionPos.y)
+						if(directionHeight < lakeHeight):
+							foundRiver = true
+							minPos = directionPos
+						elif(directionHeight <= minHeight):
+							foundRiver = false
+							minHeight = directionHeight
+							minPos = directionPos
+		if(foundRiver):
+			if(!hasChunkReady(getGlobalPos(minPos))):call_thread_safe("addChunk",getGlobalPos(minPos))
+			call_thread_safe("addFrontRiverIt",minPos)
+			setValue(minPos,StaticTerrain.VALUE_RIVER)
+		else:
+			if(hasChunkReady(getGlobalPos(minPos))):
+				workingLakeIt.append(minPos)
+				setValue(minPos,StaticTerrain.VALUE_LAKE)
 			else:
-				if(hasChunkReady(getGlobalPos(minPos))):
-					workingLakeIt.append(minPos)
-					setValue(minPos,StaticTerrain.VALUE_LAKE)
-				else:
-					addFrontLakeIt(minPos)
-					call_thread_safe("addChunk",getGlobalPos(minPos))
-					mustWaitForGen = true
+				lakeIt.append(minPos)
+				call_thread_safe("addChunk",getGlobalPos(minPos))
+				mustWaitForGen = true
 
 
 func riverGeneration()->void:
@@ -159,9 +152,8 @@ func hasChunkReady(globalPos:Vector2i)->bool:
 	return chunkDict.has(globalPos) && chunkDict[globalPos].genarationDone
 func getValue(pos:Vector2i)->int:
 	var globalPos = getGlobalPos(pos)
-	
-	if(!chunkDict.has(globalPos)):return -1
-	else: return chunkDict.get(globalPos).getValue(getLocalPos(pos))
+	if(hasChunkReady(globalPos)):return chunkDict.get(globalPos).getValue(getLocalPos(pos))
+	else:return -1
 func setValue(pos:Vector2i,value:int)->void:
 	var globalPos = getGlobalPos(pos)
 	if(chunkDict.has(globalPos)):
