@@ -8,7 +8,7 @@ static var CHUNK_RECT := Rect2i(0,0,CHUNK_SIZE,CHUNK_SIZE)
 static var TILE_SIZE := 64
 
 var globalPosition:Vector2i
-var valueMap:Array[int]
+var valueArray:Array[int]
 var hasSea:bool = false
 var springList:Array[Vector2i]
 var genarationDone = false
@@ -26,8 +26,8 @@ func generateHeightMap()->void:
 	hasSea = false
 	for x in CHUNK_SIZE:
 		for y in CHUNK_SIZE:
-			var value := StaticTerrain.getValue(getHeight(Vector2i(x,y)))
-			valueMap.append(value)
+			var value := StaticTerrain.calcValue(getHeight(Vector2i(x,y)))
+			valueArray.append(value)
 			if(!hasSea && StaticTerrain.GROUP_SALT_WATER.has(value)): hasSea = true
 func generateSpring()->void:
 	for x in CHUNK_SIZE:
@@ -61,10 +61,10 @@ func setGlobalPosition(x:int,y:int)->void:
 	position = globalPosition*CHUNK_SIZE*TILE_SIZE
 func setValue(pos:Vector2i, value:int):
 	mutex.lock()
-	valueMap[pos.x*CHUNK_SIZE+pos.y] = value
+	valueArray[pos.x*CHUNK_SIZE+pos.y] = value
 	mutex.unlock()
 func getValue(pos:Vector2i)->int:
-	var rep = valueMap[pos.x*CHUNK_SIZE+pos.y]
+	var rep = valueArray[pos.x*CHUNK_SIZE+pos.y]
 	return rep
 func getHeight(pos:Vector2i)->float:
 	return NoiseHandler.getHeight(pos.x+globalPosition.x*CHUNK_SIZE,pos.y+globalPosition.y*CHUNK_SIZE)

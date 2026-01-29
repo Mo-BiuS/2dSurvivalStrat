@@ -26,7 +26,7 @@ static var GROUP_LAND:Array[int] = [VALUE_BEACH,VALUE_PLAINS,VALUE_HILLS,VALUE_M
 
 static var THRESHOLD_SPRING_START := 0.0002
 
-static func getValue(threshold:float)->int:
+static func calcValue(threshold:float)->int:
 	if(threshold < THRESHOLD_SEA):return VALUE_SEA
 	if(threshold < THRESHOLD_COAST):return VALUE_COAST
 	if(threshold < THRESHOLD_BEACH):return VALUE_BEACH
