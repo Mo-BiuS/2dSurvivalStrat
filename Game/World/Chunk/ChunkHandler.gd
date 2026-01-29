@@ -70,6 +70,7 @@ func lakeGeneration()->void:
 	var foundSea:=false
 	var mustWaitForGen:=false
 	var workingLakeIt:Array[Vector2i] = [lakeIt.pop_front()]
+	var chunkReady:Dictionary[Chunk,bool]
 	setValue(workingLakeIt[0],StaticTerrain.VALUE_LAKE)
 	while(!foundRiver && !foundSea && !mustWaitForGen):
 		var minHeight := 1.0
